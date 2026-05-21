@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Team Meeting Icebreaker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #6c63ff;
+      --secondary: #ff6584;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --radius: 18px;
+      --shadow: 0 8px 32px rgba(108,99,255,0.15);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #f093fb 50%, #f5576c 100%);
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    .screen { display: none; min-height: 100vh; padding: 24px 16px 48px; }
+    .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+    /* ── WELCOME ── */
+    .logo {
+      font-size: 2.5rem; font-weight: 900; color: #fff;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      text-align: center; line-height: 1.15; margin-bottom: 8px;
+    }
+    .subtitle { color: rgba(255,255,255,0.85); font-size: 1rem; text-align: center; margin-bottom: 32px; }
+
+    .card {
+      background: white; border-radius: var(--radius);
+      box-shadow: var(--shadow); padding: 32px 28px; width: 100%; max-width: 420px;
+    }
+    .card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
+
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb;
+      border-radius: 12px; font-family: 'Poppins', sans-serif;
+      font-size: 1rem; outline: none; transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="password"]:focus { border-color: var(--primary); }
+
+    .btn {
+      display: block; width: 100%; padding: 14px; border: none; border-radius: 12px;
+      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; margin-top: 12px; transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .btn-secondary { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+    .btn-ghost { background: #f3f4f6; color: var(--text); }
+    .btn-danger { background: linear-gradient(135deg, #f5576c, #c62a47); color: white; }
+
+    /* ── QUESTION SCREENS ── */
+    .q-header { text-align: center; margin-bottom: 22px; }
+    .q-label {
+      display: inline-block; background: rgba(255,255,255,0.25); color: white;
+      font-weight: 700; font-size: 0.78rem; padding: 4px 14px; border-radius: 50px;
+      margin-bottom: 8px; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .q-header h1 { font-size: 1.6rem; font-weight: 800; color: white; line-height: 1.2; }
+    .q-desc { color: rgba(255,255,255,0.85); font-size: 0.92rem; margin-top: 6px; }
+
+    .options-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; width: 100%; max-width: 420px;
+    }
+    .option-btn {
+      background: white; border: 3px solid transparent;
+      border-radius: 16px; padding: 18px 10px;
+      font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 600;
+      cursor: pointer; text-align: center; transition: all 0.18s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .option-btn .opt-emoji { font-size: 2rem; }
+    .option-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.13); }
+    .option-btn.selected { border-color: var(--primary); background: #f3f1ff; }
+
+    /* Weather colors */
+    .option-btn[data-val="Sunny"]:hover,        .option-btn[data-val="Sunny"].selected        { border-color: #ffd200; background: #fffde7; }
+    .option-btn[data-val="Partly Cloudy"]:hover, .option-btn[data-val="Partly Cloudy"].selected{ border-color: #90caf9; background: #e3f2fd; }
+    .option-btn[data-val="Stormy"]:hover,        .option-btn[data-val="Stormy"].selected        { border-color: #7c4dff; background: #ede7f6; }
+    .option-btn[data-val="Snowy"]:hover,         .option-btn[data-val="Snowy"].selected         { border-color: #81d4fa; background: #e1f5fe; }
+    /* Recharge colors */
+    .option-btn[data-val="Rest"]:hover,   .option-btn[data-val="Rest"].selected   { border-color: #43e97b; background: #e8fdf0; }
+    .option-btn[data-val="Fun"]:hover,    .option-btn[data-val="Fun"].selected    { border-color: #ff6584; background: #fff0f3; }
+    .option-btn[data-val="Nature"]:hover, .option-btn[data-val="Nature"].selected { border-color: #56ab2f; background: #f1f8e9; }
+    .option-btn[data-val="Food"]:hover,   .option-btn[data-val="Food"].selected   { border-color: #f7971e; background: #fff8e1; }
+
+    .other-section { width: 100%; max-width: 420px; margin-top: 12px; }
+    .other-btn-wide {
+      width: 100%; flex-direction: row !important; justify-content: center;
+      gap: 10px; padding: 14px 16px !important;
+    }
+
+    .error-msg { font-size: 0.82rem; margin-top: 8px; min-height: 18px; color: white; text-align: center; }
+    .progress-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.35); transition: background 0.3s; }
+    .dot.active { background: white; }
+
+    /* ── THANKS ── */
+    #screen-thanks { text-align: center; }
+    .thanks-card {
+      background: white; border-radius: var(--radius);
+      padding: 36px 28px; max-width: 380px; width: 100%;
+      box-shadow: var(--shadow);
+    }
+    .thanks-emoji { font-size: 4rem; margin-bottom: 12px; }
+    .thanks-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+    .thanks-card p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ── RESULTS SCREEN ── */
+    #screen-results {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      justify-content: flex-start; padding-top: 28px;
+    }
+    .results-header { text-align: center; margin-bottom: 24px; width: 100%; }
+    .results-header h1 { font-size: 1.7rem; font-weight: 900; color: white; }
+    .results-header p { color: rgba(255,255,255,0.55); font-size: 0.82rem; margin-top: 4px; }
+
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,77,77,0.2); border: 1px solid rgba(255,77,77,0.4);
+      border-radius: 50px; padding: 3px 12px; font-size: 0.72rem;
+      font-weight: 700; color: #ff6b6b; margin-bottom: 10px;
+    }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; animation: pulse-dot 1.2s ease infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+    .results-grid {
+      display: flex; flex-direction: column; gap: 28px;
+      width: 100%; max-width: 900px;
+    }
+    @media (min-width: 700px) {
+      .results-grid { flex-direction: row; align-items: flex-start; }
+      .results-col { flex: 1; }
+    }
+
+    .results-col-title {
+      font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.6);
+      text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; text-align: center;
+    }
+
+    /* ── WEATHER CARDS ── */
+    .weather-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .weather-card {
+      background: rgba(255,255,255,0.07); border-radius: 16px;
+      border: 2px solid rgba(255,255,255,0.1);
+      padding: 18px 12px; text-align: center;
+      transition: all 0.5s cubic-bezier(0.34,1.2,0.64,1);
+      position: relative; overflow: hidden;
+    }
+    .weather-card.has-votes { border-color: var(--wcolor, rgba(255,255,255,0.3)); background: rgba(255,255,255,0.1); }
+    .weather-card.leading { transform: scale(1.04); box-shadow: 0 0 24px var(--wcolor, #6c63ff)44; }
+    .wc-emoji { font-size: 2.8rem; display: block; margin-bottom: 6px; animation: float 3s ease-in-out infinite; }
+    .wc-label { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+    .wc-count {
+      font-size: 2rem; font-weight: 900; color: white;
+      transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .wc-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 10px; }
+    .wc-bar { height: 4px; border-radius: 4px; transition: width 0.6s ease; }
+    .wc-pct { font-size: 0.7rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+    /* ── LEADERBOARD ── */
+    .leaderboard { display: flex; flex-direction: column; gap: 10px; }
+    .lb-item {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.07); border-radius: 14px;
+      padding: 13px 16px; transition: all 0.5s cubic-bezier(0.34,1.2,0.64,1);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      position: relative; overflow: hidden;
+    }
+    .lb-rank { font-size: 1rem; font-weight: 800; color: rgba(255,255,255,0.3); min-width: 22px; }
+    .lb-emoji { font-size: 1.5rem; flex-shrink: 0; }
+    .lb-label { flex: 1; font-size: 0.9rem; font-weight: 600; color: white; text-transform: capitalize; }
+    .lb-count { font-size: 1.3rem; font-weight: 800; color: white; min-width: 28px; text-align: right; }
+    .lb-bar-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.05); }
+    .lb-bar { position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 0 14px; transition: width 0.6s ease; }
+    .lb-item.rank-1 { background: rgba(255,210,0,0.12); border-color: rgba(255,210,0,0.35); }
+    .lb-item.rank-1 .lb-rank, .lb-item.rank-1 .lb-count { color: #ffd200; }
+    .lb-item.rank-2 { background: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.3); }
+    .lb-item.rank-3 { background: rgba(255,101,132,0.08); border-color: rgba(255,101,132,0.2); }
+
+    .other-list {
+      margin-top: 14px; background: rgba(255,255,255,0.04);
+      border-radius: 14px; padding: 14px 16px;
+      border: 1.5px solid rgba(255,255,255,0.07);
+    }
+    .other-list h4 {
+      font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.4);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+    }
+    .other-item {
+      display: flex; align-items: center; gap: 8px; padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.83rem; color: rgba(255,255,255,0.7);
+    }
+    .other-item:last-child { border-bottom: none; }
+    .other-dot { width: 6px; height: 6px; border-radius: 50%; background: #6c63ff; flex-shrink: 0; }
+
+    .total-row { text-align: center; margin-top: 14px; }
+    .total-row span { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+    .total-row strong { color: rgba(255,255,255,0.6); }
+
+    /* ── ADMIN ── */
+    #admin-trigger {
+      position: fixed; bottom: 16px; right: 16px;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); border: none; cursor: pointer;
+      font-size: 1rem; color: white; z-index: 100; backdrop-filter: blur(4px);
+    }
+    #admin-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 200;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #admin-overlay.show { display: flex; }
+    .admin-card { background: white; border-radius: var(--radius); padding: 28px; max-width: 340px; width: 100%; }
+    .admin-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .admin-card > p { font-size: 0.83rem; color: var(--muted); margin-bottom: 16px; }
+    #admin-msg { font-size: 0.82rem; margin-top: 6px; min-height: 20px; }
+
+    /* ── CONFETTI ── */
+    #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { animation: fadeInUp 0.45s ease both; }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ══════════════ WELCOME ══════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="logo">🧊 Team Meeting<br/>Icebreaker</div>
+  <div class="subtitle">Quick questions, big vibes ✨</div>
+  <div class="card fade-in">
+    <h2>Hey there! 👋</h2>
+    <p>What's your first name?</p>
+    <input type="text" id="input-name" placeholder="Enter your first name…" maxlength="30" autocomplete="off" />
+    <div class="error-msg" id="name-error" style="color:#f5576c;"></div>
+    <button class="btn btn-primary" onclick="submitName()">Let's Go! 🚀</button>
+    <button class="btn btn-secondary" style="margin-top:8px;" onclick="goToResults()">📊 View Live Results</button>
+  </div>
+</div>
+
+<!-- ══════════════ Q1 ══════════════ -->
+<div id="screen-q1" class="screen">
+  <div class="progress-dots"><div class="dot active"></div><div class="dot"></div></div>
+  <div class="q-header">
+    <div class="q-label">☁️ Question 1 of 2</div>
+    <h1>Energy Forecast</h1>
+    <p class="q-desc">If your current energy level was a<br/>weather forecast, what would it be?</p>
+  </div>
+  <div class="options-grid">
+    <button class="option-btn fade-in" data-val="Sunny" onclick="selectQ1(this)">
+      <span class="opt-emoji">☀️</span>Sunny
+    </button>
+    <button class="option-btn fade-in" data-val="Partly Cloudy" onclick="selectQ1(this)" style="animation-delay:.07s">
+      <span class="opt-emoji">⛅</span>Partly Cloudy
+    </button>
+    <button class="option-btn fade-in" data-val="Stormy" onclick="selectQ1(this)" style="animation-delay:.14s">
+      <span class="opt-emoji">⛈️</span>Stormy
+    </button>
+    <button class="option-btn fade-in" data-val="Snowy" onclick="selectQ1(this)" style="animation-delay:.21s">
+      <span class="opt-emoji">❄️</span>Snowy
+    </button>
+  </div>
+  <div class="error-msg" id="q1-error"></div>
+</div>
+
+<!-- ══════════════ Q2 ══════════════ -->
+<div id="screen-q2" class="screen">
+  <div class="progress-dots"><div class="dot"></div><div class="dot active"></div></div>
+  <div class="q-header">
+    <div class="q-label">🌴 Question 2 of 2</div>
+    <h1>Team Recharge</h1>
+    <p class="q-desc">If we planned the ultimate team recharge day,<br/>what absolutely needs to be included?</p>
+  </div>
+  <div class="options-grid">
+    <button class="option-btn fade-in" data-val="Rest" onclick="selectQ2(this)">
+      <span class="opt-emoji">🧘</span>Rest
+    </button>
+    <button class="option-btn fade-in" data-val="Fun" onclick="selectQ2(this)" style="animation-delay:.07s">
+      <span class="opt-emoji">🎉</span>Fun
+    </button>
+    <button class="option-btn fade-in" data-val="Nature" onclick="selectQ2(this)" style="animation-delay:.14s">
+      <span class="opt-emoji">🌿</span>Nature
+    </button>
+    <button class="option-btn fade-in" data-val="Food" onclick="selectQ2(this)" style="animation-delay:.21s">
+      <span class="opt-emoji">🍕</span>Food
+    </button>
+  </div>
+  <div class="other-section fade-in" style="animation-delay:.28s">
+    <button class="option-btn other-btn-wide" data-val="__other__" id="other-btn" onclick="selectQ2(this)">
+      <span class="opt-emoji" style="font-size:1.4rem">✏️</span><span>Other — I have an idea!</span>
+    </button>
+    <div id="other-input-wrap" style="display:none;margin-top:10px;">
+      <input type="text" id="other-input" placeholder="Type your idea here…" maxlength="60" />
+    </div>
+  </div>
+  <div class="error-msg" id="q2-error"></div>
+  <button class="btn btn-primary" id="submit-btn" onclick="submitAnswers()" style="max-width:420px;width:100%;margin-top:16px;">
+    Submit My Answers 🎯
+  </button>
+</div>
+
+<!-- ══════════════ THANKS ══════════════ -->
+<div id="screen-thanks" class="screen">
+  <div class="thanks-card fade-in">
+    <div class="thanks-emoji">🎉</div>
+    <h2>You're all set!</h2>
+    <p id="thanks-msg">Your answers have been recorded. See how the team responded!</p>
+    <button class="btn btn-primary" onclick="goToResults()" style="margin-top:20px;">📊 See Live Results</button>
+  </div>
+</div>
+
+<!-- ══════════════ RESULTS ══════════════ -->
+<div id="screen-results" class="screen">
+  <div class="results-header">
+    <div class="live-badge"><div class="live-dot"></div> LIVE RESULTS</div>
+    <h1>🧊 Team Icebreaker</h1>
+    <p id="results-subtitle">Waiting for responses…</p>
+  </div>
+  <div class="results-grid">
+
+    <!-- Q1: Weather Cards -->
+    <div class="results-col">
+      <div class="results-col-title">☁️ Energy Forecast</div>
+      <div class="weather-cards" id="weather-cards">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- Q2: Leaderboard -->
+    <div class="results-col">
+      <div class="results-col-title">🌴 Team Recharge</div>
+      <div class="leaderboard" id="leaderboard"></div>
+      <div class="other-list" id="other-list" style="display:none;">
+        <h4>✏️ Other Ideas from the Team</h4>
+        <div id="other-items"></div>
+      </div>
+      <div class="total-row"><span>Total responses: <strong id="total-count">0</strong></span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADMIN -->
+<button id="admin-trigger" onclick="document.getElementById('admin-overlay').classList.add('show')" title="Admin">⚙️</button>
+<div id="admin-overlay">
+  <div class="admin-card">
+    <h3>⚙️ Admin Panel</h3>
+    <p>Enter the password to clear all responses and restart.</p>
+    <input type="password" id="admin-pass" placeholder="Password…" />
+    <div id="admin-msg"></div>
+    <button class="btn btn-danger" onclick="adminReset()">🗑️ Clear All Responses</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('admin-overlay').classList.remove('show')" style="margin-top:8px;">Cancel</button>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// CONFIG — replace with your Apps Script URL
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/onepeloton.com/s/AKfycbyjmzwBvgAM9hQqXJMIr3L2xr6HwgX2lvAM5aSDSLfNkq9Qc6Zmo8_5h5o_CauktMX_fQ/exec';
+// ─────────────────────────────────────────
+
+let userName = '', q1Answer = '', q2Answer = '';
+let pollInterval = null;
+
+// ── SCREENS ──────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── WELCOME ───────────────────────────────
+function submitName() {
+  const val = document.getElementById('input-name').value.trim();
+  if (!val) { document.getElementById('name-error').textContent = 'Please enter your name!'; return; }
+  document.getElementById('name-error').textContent = '';
+  userName = val;
+  showScreen('screen-q1');
+}
+document.getElementById('input-name').addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
+
+// ── Q1 ────────────────────────────────────
+function selectQ1(btn) {
+  document.querySelectorAll('#screen-q1 .option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  q1Answer = btn.dataset.val;
+  setTimeout(() => showScreen('screen-q2'), 280);
+}
+
+// ── Q2 ────────────────────────────────────
+function selectQ2(btn) {
+  document.querySelectorAll('#screen-q2 .option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  q2Answer = btn.dataset.val;
+  const wrap = document.getElementById('other-input-wrap');
+  if (btn.dataset.val === '__other__') {
+    wrap.style.display = 'block';
+    setTimeout(() => document.getElementById('other-input').focus(), 50);
+  } else {
+    wrap.style.display = 'none';
+    document.getElementById('other-input').value = '';
+  }
+  document.getElementById('q2-error').textContent = '';
+}
+
+// ── SUBMIT ────────────────────────────────
+async function submitAnswers() {
+  if (!q1Answer) { document.getElementById('q2-error').textContent = '← Go back and pick a weather!'; return; }
+  if (!q2Answer) { document.getElementById('q2-error').textContent = 'Please pick a recharge option!'; return; }
+  let finalQ2 = q2Answer;
+  if (q2Answer === '__other__') {
+    const v = document.getElementById('other-input').value.trim();
+    if (!v) { document.getElementById('q2-error').textContent = 'Please type your idea!'; return; }
+    finalQ2 = v;
+  }
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Submitting… ⏳'; btn.disabled = true;
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: userName, q1: q1Answer, q2: finalQ2 })
+    });
+  } catch(e) { console.warn(e); }
+  document.getElementById('thanks-msg').textContent =
+    `Thanks ${userName}! Your answers are in. See how everyone voted!`;
+  showScreen('screen-thanks');
+  launchConfetti();
+}
+
+// ── RESULTS ───────────────────────────────
+function goToResults() {
+  showScreen('screen-results');
+  fetchAndRender();
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(fetchAndRender, 3000);
+}
+
+async function fetchAndRender() {
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?action=get', { cache: 'no-store' });
+    const data = await res.json();
+    renderResults(data);
+  } catch(e) { console.warn('Fetch error:', e); }
+}
+
+// ── WEATHER CARDS ─────────────────────────
+const WEATHER = [
+  { val: 'Sunny',        emoji: '☀️',  color: '#ffd200', colorDim: '#ffd20033' },
+  { val: 'Partly Cloudy',emoji: '⛅',  color: '#90caf9', colorDim: '#90caf933' },
+  { val: 'Stormy',       emoji: '⛈️', color: '#b39ddb', colorDim: '#b39ddb33' },
+  { val: 'Snowy',        emoji: '❄️',  color: '#81d4fa', colorDim: '#81d4fa33' },
+];
+
+function renderResults(data) {
+  const { q1Counts = {}, q2Counts = {}, total = 0, otherResponses = [] } = data;
+  document.getElementById('total-count').textContent = total;
+  document.getElementById('results-subtitle').textContent =
+    total === 0 ? 'Waiting for responses…' : total === 1 ? '1 response so far' : `${total} responses so far`;
+
+  // Weather cards
+  const container = document.getElementById('weather-cards');
+  const maxQ1 = Math.max(1, ...WEATHER.map(w => q1Counts[w.val] || 0));
+  WEATHER.forEach(w => {
+    const count = q1Counts[w.val] || 0;
+    const pct = Math.round((count / Math.max(1, total)) * 100);
+    let card = document.getElementById('wcard-' + w.val.replace(/\s/g,'_'));
+    if (!card) {
+      card = document.createElement('div');
+      card.id = 'wcard-' + w.val.replace(/\s/g,'_');
+      card.className = 'weather-card';
+      card.style.setProperty('--wcolor', w.color);
+      card.innerHTML = `
+        <span class="wc-emoji">${w.emoji}</span>
+        <div class="wc-label">${w.val}</div>
+        <div class="wc-count" id="wcount-${w.val.replace(/\s/g,'_')}">0</div>
+        <div class="wc-bar-wrap"><div class="wc-bar" id="wbar-${w.val.replace(/\s/g,'_')}" style="background:${w.color}"></div></div>
+        <div class="wc-pct" id="wpct-${w.val.replace(/\s/g,'_')}">—</div>
+      `;
+      container.appendChild(card);
+    }
+    card.classList.toggle('has-votes', count > 0);
+    card.classList.toggle('leading', count > 0 && count === maxQ1);
+    document.getElementById('wcount-' + w.val.replace(/\s/g,'_')).textContent = count;
+    document.getElementById('wbar-'  + w.val.replace(/\s/g,'_')).style.width = ((count / maxQ1) * 100) + '%';
+    document.getElementById('wpct-'  + w.val.replace(/\s/g,'_')).textContent = total > 0 ? pct + '%' : '—';
+  });
+
+  // Leaderboard
+  renderLeaderboard(q2Counts, otherResponses, total);
+}
+
+const BASE_Q2 = ['Rest','Fun','Nature','Food'];
+const Q2_META = {
+  'Rest':   { emoji: '🧘', color: '#43e97b' },
+  'Fun':    { emoji: '🎉', color: '#ff6584' },
+  'Nature': { emoji: '🌿', color: '#56ab2f' },
+  'Food':   { emoji: '🍕', color: '#f7971e' },
+};
+
+function renderLeaderboard(q2Counts, otherResponses, total) {
+  const lb = document.getElementById('leaderboard');
+
+  // Build all entries
+  const entries = [];
+  BASE_Q2.forEach(k => entries.push({ label: k, emoji: Q2_META[k].emoji, color: Q2_META[k].color, count: q2Counts[k] || 0 }));
+
+  // Group other unique entries
+  const othersMap = {};
+  otherResponses.forEach(r => { const k = r.trim(); othersMap[k] = (othersMap[k]||0)+1; });
+  Object.entries(othersMap).forEach(([k,c]) => entries.push({ label: k, emoji: '✏️', color: '#6c63ff', count: c }));
+
+  entries.sort((a,b) => b.count - a.count);
+  const maxCount = Math.max(1, entries[0]?.count || 1);
+
+  // Reorder DOM elements smoothly
+  const existing = {};
+  lb.querySelectorAll('.lb-item').forEach(el => { existing[el.dataset.key] = el; });
+  const seen = new Set();
+
+  entries.forEach((entry, idx) => {
+    const key = entry.label;
+    seen.add(key);
+    let el = existing[key];
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'lb-item';
+      el.dataset.key = key;
+      el.innerHTML = `
+        <div class="lb-rank">#${idx+1}</div>
+        <div class="lb-emoji">${entry.emoji}</div>
+        <div class="lb-label">${entry.label.charAt(0).toUpperCase()+entry.label.slice(1)}</div>
+        <div class="lb-count">${entry.count}</div>
+        <div class="lb-bar-bg"></div>
+        <div class="lb-bar" style="background:${entry.color}"></div>
+      `;
+    } else {
+      el.querySelector('.lb-rank').textContent = '#' + (idx+1);
+      el.querySelector('.lb-count').textContent = entry.count;
+    }
+    el.classList.remove('rank-1','rank-2','rank-3');
+    if (entry.count > 0) el.classList.add('rank-' + Math.min(idx+1,3));
+    el.querySelector('.lb-bar').style.width = ((entry.count/maxCount)*100) + '%';
+    el.querySelector('.lb-bar').style.background = entry.color;
+    lb.appendChild(el);
+  });
+
+  Object.entries(existing).forEach(([k,el]) => { if (!seen.has(k)) el.remove(); });
+
+  // Other ideas list
+  const otherList = document.getElementById('other-list');
+  const otherItems = document.getElementById('other-items');
+  if (otherResponses.length > 0) {
+    otherList.style.display = 'block';
+    otherItems.innerHTML = otherResponses.map(r =>
+      `<div class="other-item"><div class="other-dot"></div><span>${r}</span></div>`
+    ).join('');
+  } else {
+    otherList.style.display = 'none';
+  }
+}
+
+// ── ADMIN ──────────────────────────────────
+async function adminReset() {
+  if (document.getElementById('admin-pass').value !== 'reset') {
+    document.getElementById('admin-msg').style.color = '#f5576c';
+    document.getElementById('admin-msg').textContent = '❌ Incorrect password.';
+    return;
+  }
+  document.getElementById('admin-msg').style.color = '#43e97b';
+  document.getElementById('admin-msg').textContent = 'Clearing responses…';
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'reset', password: 'reset' })
+    });
+    document.getElementById('admin-msg').textContent = '✅ All cleared! Ready to restart.';
+    document.getElementById('admin-pass').value = '';
+    setTimeout(() => {
+      document.getElementById('admin-overlay').classList.remove('show');
+      document.getElementById('admin-msg').textContent = '';
+      userName = ''; q1Answer = ''; q2Answer = '';
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      document.getElementById('other-input-wrap').style.display = 'none';
+      document.getElementById('other-input').value = '';
+      document.getElementById('input-name').value = '';
+      const btn = document.getElementById('submit-btn');
+      btn.textContent = 'Submit My Answers 🎯'; btn.disabled = false;
+      showScreen('screen-welcome');
+      fetchAndRender();
+    }, 1400);
+  } catch(e) {
+    document.getElementById('admin-msg').textContent = '⚠️ Error — check your Apps Script URL.';
+  }
+}
+
+// ── CONFETTI ───────────────────────────────
+function launchConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  const colors = ['#667eea','#f093fb','#f5576c','#ffd200','#43e97b','#ff6584','#90caf9','#fff'];
+  const pieces = Array.from({length:150}, () => ({
+    x: Math.random()*canvas.width, y: -10-Math.random()*200,
+    r: 4+Math.random()*7, d: Math.random()*120+60,
+    color: colors[Math.floor(Math.random()*colors.length)],
+    tilt: Math.random()*10-10, tiltAngle: 0,
+    tiltInc: Math.random()*0.07+0.05
+  }));
+  let angle=0, elapsed=0;
+  (function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    angle+=0.01; elapsed++;
+    pieces.forEach(p => {
+      p.tiltAngle+=p.tiltInc;
+      p.y+=(Math.cos(angle+p.d)+2+p.r/3)*1.8;
+      p.x+=Math.sin(angle)*1.2;
+      p.tilt=Math.sin(p.tiltAngle)*12;
+      ctx.beginPath(); ctx.lineWidth=p.r; ctx.strokeStyle=p.color;
+      ctx.moveTo(p.x+p.tilt+p.r/3, p.y);
+      ctx.lineTo(p.x+p.tilt, p.y+p.tilt+p.r/3);
+      ctx.stroke();
+    });
+    if (elapsed < 240) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  })();
+}
+
+// Initial silent fetch
+fetchAndRender();
+</script>
+
+<!-- ════════════════════════════════════════════════════════
+  SETUP INSTRUCTIONS
+  ══════════════════════════════════════════════════════════
+
+  STEP 1 — Google Apps Script backend
+  ─────────────────────────────────────
+  1. Go to https://script.google.com → New Project
+  2. Create a Google Sheet → copy its ID from the URL
+     (the long string between /d/ and /edit)
+  3. Paste this code into Apps Script:
+
+  const SHEET_ID = 'YOUR_SPREADSHEET_ID';
+
+  function doGet(e) {
+    if (e.parameter.action === 'get') {
+      return ContentService
+        .createTextOutput(JSON.stringify(getResults()))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    return ContentService.createTextOutput('OK');
+  }
+
+  function doPost(e) {
+    const data = JSON.parse(e.postData.contents);
+    if (data.action === 'reset' && data.password === 'reset') {
+      resetSheet(); return ContentService.createTextOutput('RESET');
+    }
+    appendRow(data); return ContentService.createTextOutput('OK');
+  }
+
+  function appendRow(data) {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName('Responses') || ss.insertSheet('Responses');
+    if (sheet.getLastRow() === 0) sheet.appendRow(['Timestamp','Name','Q1','Q2']);
+    sheet.appendRow([new Date().toISOString(), data.name, data.q1, data.q2]);
+  }
+
+  function getResults() {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName('Responses');
+    if (!sheet || sheet.getLastRow() <= 1)
+      return { q1Counts:{}, q2Counts:{}, total:0, otherResponses:[] };
+    const rows = sheet.getRange(2,1,sheet.getLastRow()-1,4).getValues();
+    const q1Counts={}, q2Counts={}, otherResponses=[];
+    const BASE=['Rest','Fun','Nature','Food'];
+    rows.forEach(row => {
+      const q1=row[2], q2=row[3];
+      if (q1) q1Counts[q1]=(q1Counts[q1]||0)+1;
+      if (q2) {
+        q2Counts[q2]=(q2Counts[q2]||0)+1;
+        if (!BASE.includes(q2)) otherResponses.push(q2);
+      }
+    });
+    return { q1Counts, q2Counts, total:rows.length, otherResponses };
+  }
+
+  function resetSheet() {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    let s = ss.getSheetByName('Responses');
+    if (s) ss.deleteSheet(s);
+    ss.insertSheet('Responses').appendRow(['Timestamp','Name','Q1','Q2']);
+  }
+
+  4. Deploy → New Deployment → Web App
+     - Execute as: Me
+     - Who has access: Anyone
+     - Copy the Web App URL
+
+  STEP 2 — Update this HTML file
+  ─────────────────────────────────────
+  Replace YOUR_APPS_SCRIPT_URL_HERE with your Web App URL
+
+  STEP 3 — GitHub Pages
+  ─────────────────────────────────────
+  - Push this file to a GitHub repo
+  - Settings → Pages → Deploy from main branch
+  - Generate a QR code pointing to your GitHub Pages URL
+
+════════════════════════════════════════════════════════ -->
+</body>
+</html>
