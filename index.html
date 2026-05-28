@@ -87,14 +87,14 @@
     .option-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.13); }
     .option-btn.selected { border-color: var(--primary); background: #f3f1ff; }
 
-    .option-btn[data-val="Sunny"]:hover,        .option-btn[data-val="Sunny"].selected        { border-color: #ffd200; background: #fffde7; }
-    .option-btn[data-val="Partly Cloudy"]:hover, .option-btn[data-val="Partly Cloudy"].selected{ border-color: #90caf9; background: #e3f2fd; }
-    .option-btn[data-val="Stormy"]:hover,        .option-btn[data-val="Stormy"].selected        { border-color: #7c4dff; background: #ede7f6; }
-    .option-btn[data-val="Snowy"]:hover,         .option-btn[data-val="Snowy"].selected         { border-color: #81d4fa; background: #e1f5fe; }
-    .option-btn[data-val="Rest"]:hover,   .option-btn[data-val="Rest"].selected   { border-color: #43e97b; background: #e8fdf0; }
-    .option-btn[data-val="Fun"]:hover,    .option-btn[data-val="Fun"].selected    { border-color: #ff6584; background: #fff0f3; }
-    .option-btn[data-val="Nature"]:hover, .option-btn[data-val="Nature"].selected { border-color: #56ab2f; background: #f1f8e9; }
-    .option-btn[data-val="Food"]:hover,   .option-btn[data-val="Food"].selected   { border-color: #f7971e; background: #fff8e1; }
+    .option-btn[data-val="Sunny"]:hover,         .option-btn[data-val="Sunny"].selected         { border-color: #ffd200; background: #fffde7; }
+    .option-btn[data-val="Partly Cloudy"]:hover,  .option-btn[data-val="Partly Cloudy"].selected { border-color: #90caf9; background: #e3f2fd; }
+    .option-btn[data-val="Stormy"]:hover,         .option-btn[data-val="Stormy"].selected        { border-color: #7c4dff; background: #ede7f6; }
+    .option-btn[data-val="Snowy"]:hover,          .option-btn[data-val="Snowy"].selected         { border-color: #81d4fa; background: #e1f5fe; }
+    .option-btn[data-val="Rest"]:hover,           .option-btn[data-val="Rest"].selected          { border-color: #43e97b; background: #e8fdf0; }
+    .option-btn[data-val="Fun"]:hover,            .option-btn[data-val="Fun"].selected           { border-color: #ff6584; background: #fff0f3; }
+    .option-btn[data-val="Nature"]:hover,         .option-btn[data-val="Nature"].selected        { border-color: #56ab2f; background: #f1f8e9; }
+    .option-btn[data-val="Food"]:hover,           .option-btn[data-val="Food"].selected          { border-color: #f7971e; background: #fff8e1; }
 
     .other-section { width: 100%; max-width: 420px; margin-top: 12px; }
     .other-btn-wide {
@@ -136,15 +136,6 @@
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; animation: pulse-dot 1.2s ease infinite; }
     @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
 
-    /* ── DEMO MODE BANNER ── */
-    .demo-banner {
-      background: rgba(255,210,0,0.15); border: 1px solid rgba(255,210,0,0.4);
-      border-radius: 12px; padding: 10px 16px; margin-bottom: 16px;
-      color: #ffd200; font-size: 0.78rem; font-weight: 600; text-align: center;
-      max-width: 900px; width: 100%;
-    }
-    .demo-banner span { opacity: 0.75; font-weight: 400; }
-
     .results-grid {
       display: flex; flex-direction: column; gap: 28px;
       width: 100%; max-width: 900px;
@@ -174,7 +165,7 @@
     .wc-label { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
     .wc-count { font-size: 2rem; font-weight: 900; color: white; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); }
     .wc-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 10px; }
-    .wc-bar { height: 4px; border-radius: 4px; transition: width 0.6s ease; }
+    .wc-bar { height: 4px; border-radius: 4px; width: 0%; transition: width 0.6s ease; }
     .wc-pct { font-size: 0.7rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
 
@@ -192,7 +183,7 @@
     .lb-label { flex: 1; font-size: 0.9rem; font-weight: 600; color: white; text-transform: capitalize; }
     .lb-count { font-size: 1.3rem; font-weight: 800; color: white; min-width: 28px; text-align: right; }
     .lb-bar-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.05); }
-    .lb-bar { position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 0 14px; transition: width 0.6s ease; }
+    .lb-bar { position: absolute; bottom: 0; left: 0; height: 3px; border-radius: 0 0 0 14px; width: 0%; transition: width 0.6s ease; }
     .lb-item.rank-1 { background: rgba(255,210,0,0.12); border-color: rgba(255,210,0,0.35); }
     .lb-item.rank-1 .lb-rank, .lb-item.rank-1 .lb-count { color: #ffd200; }
     .lb-item.rank-2 { background: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.3); }
@@ -219,10 +210,9 @@
     .total-row span { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
     .total-row strong { color: rgba(255,255,255,0.6); }
 
-    /* ── STATUS BAR ── */
     #fetch-status {
-      font-size: 0.72rem; color: rgba(255,255,255,0.3); text-align: center;
-      margin-top: 18px; min-height: 16px;
+      font-size: 0.72rem; color: rgba(255,255,255,0.3);
+      text-align: center; margin-top: 18px; min-height: 16px;
     }
     #fetch-status.error { color: #ff6b6b; }
 
@@ -347,21 +337,11 @@
     <h1>🧊 Team Icebreaker</h1>
     <p id="results-subtitle">Waiting for responses…</p>
   </div>
-
-  <!-- Demo mode banner (shown when no real backend URL is configured) -->
-  <div class="demo-banner" id="demo-banner" style="display:none;">
-    🛠️ Demo Mode — <span>Showing sample data. Replace <code>APPS_SCRIPT_URL</code> with your Google Apps Script URL to see live responses.</span>
-  </div>
-
   <div class="results-grid">
-
-    <!-- Q1: Weather Cards -->
     <div class="results-col">
       <div class="results-col-title">☁️ Energy Forecast</div>
       <div class="weather-cards" id="weather-cards"></div>
     </div>
-
-    <!-- Q2: Leaderboard -->
     <div class="results-col">
       <div class="results-col-title">🌴 Team Recharge</div>
       <div class="leaderboard" id="leaderboard"></div>
@@ -371,12 +351,11 @@
       </div>
       <div class="total-row"><span>Total responses: <strong id="total-count">0</strong></span></div>
     </div>
-
   </div>
   <div id="fetch-status"></div>
 </div>
 
-<!-- ADMIN -->
+<!-- ══════════════ ADMIN ══════════════ -->
 <button id="admin-trigger" onclick="document.getElementById('admin-overlay').classList.add('show')" title="Admin">⚙️</button>
 <div id="admin-overlay">
   <div class="admin-card">
@@ -390,408 +369,321 @@
 </div>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
-// CONFIG — replace with your deployed Google Apps Script Web App URL
-// ─────────────────────────────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/onepeloton.com/s/AKfycbxN4ca6C25c2NJ2DRVJ2PxkN7cHiIUhGmYf2ZVVbw5Em0_wDApiMp7BYGkufK_eF7vEQg/exec';
+  // ═══════════════════════════════════════════════
+  // SUPABASE CONFIG
+  // ═══════════════════════════════════════════════
+  const SUPABASE_URL = 'https://iljoxjdixsjgospqmdof.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_x04URDpqZNec67ONMInw8w_vx_HDI_I';
+  const HEADERS = {
+    'Content-Type': 'application/json',
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY
+  };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DEMO DATA — shown when the backend URL is unreachable
-// Replace APPS_SCRIPT_URL above with your real URL to disable demo mode.
-// ─────────────────────────────────────────────────────────────────────────────
-const DEMO_DATA = {
-  q1Counts: { 'Sunny': 5, 'Partly Cloudy': 3, 'Stormy': 2, 'Snowy': 1 },
-  q2Counts: { 'Fun': 4, 'Food': 4, 'Rest': 2, 'Nature': 1 },
-  total: 11,
-  otherResponses: []
-};
+  let userName = '', q1Answer = '', q2Answer = '';
+  let pollInterval = null;
 
-let userName = '', q1Answer = '', q2Answer = '';
-let pollInterval = null;
-let isDemoMode = false;
-
-// ── SCREENS ──────────────────────────────
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-// ── WELCOME ──────────────────────────────
-function submitName() {
-  const val = document.getElementById('input-name').value.trim();
-  if (!val) { document.getElementById('name-error').textContent = 'Please enter your name!'; return; }
-  document.getElementById('name-error').textContent = '';
-  userName = val;
-  showScreen('screen-q1');
-}
-document.getElementById('input-name').addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
-
-// ── Q1 ────────────────────────────────────
-function selectQ1(btn) {
-  document.querySelectorAll('#screen-q1 .option-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  q1Answer = btn.dataset.val;
-  setTimeout(() => showScreen('screen-q2'), 280);
-}
-
-// ── Q2 ────────────────────────────────────
-function selectQ2(btn) {
-  document.querySelectorAll('#screen-q2 .option-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  q2Answer = btn.dataset.val;
-  const wrap = document.getElementById('other-input-wrap');
-  if (btn.dataset.val === '__other__') {
-    wrap.style.display = 'block';
-    setTimeout(() => document.getElementById('other-input').focus(), 50);
-  } else {
-    wrap.style.display = 'none';
-    document.getElementById('other-input').value = '';
-  }
-  document.getElementById('q2-error').textContent = '';
-}
-
-// ── SUBMIT ────────────────────────────────
-async function submitAnswers() {
-  if (!q1Answer) { document.getElementById('q2-error').textContent = '← Go back and pick a weather!'; return; }
-  if (!q2Answer) { document.getElementById('q2-error').textContent = 'Please pick a recharge option!'; return; }
-  let finalQ2 = q2Answer;
-  if (q2Answer === '__other__') {
-    const v = document.getElementById('other-input').value.trim();
-    if (!v) { document.getElementById('q2-error').textContent = 'Please type your idea!'; return; }
-    finalQ2 = v;
-  }
-  const btn = document.getElementById('submit-btn');
-  btn.textContent = 'Submitting… ⏳'; btn.disabled = true;
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: userName, q1: q1Answer, q2: finalQ2 })
-    });
-  } catch(e) { console.warn('Submit error (may be OK with no-cors):', e); }
-  document.getElementById('thanks-msg').textContent =
-    `Thanks ${userName}! Your answers are in. See how everyone voted!`;
-  showScreen('screen-thanks');
-  launchConfetti();
-}
-
-// ── RESULTS ───────────────────────────────
-function goToResults() {
-  showScreen('screen-results');
-  fetchAndRender();
-  if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(fetchAndRender, 5000);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// FIX 1: fetchAndRender — proper CORS-safe GET with timeout + demo fallback
-//
-// Root cause of the original bug:
-//   • fetch() to an Apps Script URL from a different origin returns an opaque
-//     response ONLY for no-cors mode — but the GET was using default mode
-//     (cors), which gets blocked because Apps Script doesn't send the right
-//     CORS headers when accessed via a restricted domain deployment.
-//   • No timeout meant a hung request stalled the poll silently forever.
-//   • No fallback meant the results page stayed blank with no indication.
-// ─────────────────────────────────────────────────────────────────────────────
-async function fetchAndRender() {
-  const statusEl = document.getElementById('fetch-status');
-
-  // If no real URL configured, go straight to demo
-  const urlIsPlaceholder = !APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('YOUR_APPS_SCRIPT');
-  if (urlIsPlaceholder) {
-    showDemoBanner();
-    renderResults(DEMO_DATA);
-    statusEl.textContent = '';
-    return;
+  // ── SCREENS ────────────────────────────────────
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
   }
 
-  statusEl.className = '';
-  statusEl.textContent = 'Refreshing…';
-
-  try {
-    // AbortController gives us a hard timeout (8 s) so the poll never hangs
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 8000);
-
-    const res = await fetch(APPS_SCRIPT_URL + '?action=get', {
-      method: 'GET',
-      mode: 'cors',          // Apps Script deployed as "Anyone" supports CORS
-      cache: 'no-store',
-      signal: controller.signal
-    });
-    clearTimeout(timer);
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const data = await res.json();
-    isDemoMode = false;
-    document.getElementById('demo-banner').style.display = 'none';
-    renderResults(data);
-    statusEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-
-  } catch(e) {
-    console.warn('Fetch error — falling back to demo mode:', e);
-    // On any network/CORS error, show demo data so the page isn't blank
-    showDemoBanner();
-    renderResults(DEMO_DATA);
-    statusEl.className = 'error';
-    statusEl.textContent = `⚠️ Can't reach backend — showing demo data. (${e.message})`;
+  // ── WELCOME ────────────────────────────────────
+  function submitName() {
+    const val = document.getElementById('input-name').value.trim();
+    if (!val) { document.getElementById('name-error').textContent = 'Please enter your name!'; return; }
+    document.getElementById('name-error').textContent = '';
+    userName = val;
+    showScreen('screen-q1');
   }
-}
+  document.getElementById('input-name').addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
 
-function showDemoBanner() {
-  if (!isDemoMode) {
-    isDemoMode = true;
-    document.getElementById('demo-banner').style.display = 'block';
+  // ── Q1 ─────────────────────────────────────────
+  function selectQ1(btn) {
+    document.querySelectorAll('#screen-q1 .option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    q1Answer = btn.dataset.val;
+    setTimeout(() => showScreen('screen-q2'), 280);
   }
-}
 
-// ── WEATHER CARDS ─────────────────────────
-const WEATHER = [
-  { val: 'Sunny',        emoji: '☀️',  color: '#ffd200' },
-  { val: 'Partly Cloudy',emoji: '⛅',  color: '#90caf9' },
-  { val: 'Stormy',       emoji: '⛈️', color: '#b39ddb' },
-  { val: 'Snowy',        emoji: '❄️',  color: '#81d4fa' },
-];
-
-function renderResults(data) {
-  const { q1Counts = {}, q2Counts = {}, total = 0, otherResponses = [] } = data;
-  document.getElementById('total-count').textContent = total;
-  document.getElementById('results-subtitle').textContent =
-    total === 0 ? 'Waiting for responses…'
-    : total === 1 ? '1 response so far'
-    : `${total} responses so far`;
-
-  // Weather cards
-  const container = document.getElementById('weather-cards');
-  const maxQ1 = Math.max(1, ...WEATHER.map(w => q1Counts[w.val] || 0));
-  WEATHER.forEach(w => {
-    const count = q1Counts[w.val] || 0;
-    const pct = Math.round((count / Math.max(1, total)) * 100);
-    const safeId = w.val.replace(/\s/g, '_');
-    let card = document.getElementById('wcard-' + safeId);
-    if (!card) {
-      card = document.createElement('div');
-      card.id = 'wcard-' + safeId;
-      card.className = 'weather-card';
-      card.style.setProperty('--wcolor', w.color);
-      card.innerHTML = `
-        <span class="wc-emoji">${w.emoji}</span>
-        <div class="wc-label">${w.val}</div>
-        <div class="wc-count" id="wcount-${safeId}">0</div>
-        <div class="wc-bar-wrap"><div class="wc-bar" id="wbar-${safeId}" style="background:${w.color};width:0%"></div></div>
-        <div class="wc-pct" id="wpct-${safeId}">—</div>
-      `;
-      container.appendChild(card);
-    }
-    card.classList.toggle('has-votes', count > 0);
-    card.classList.toggle('leading', count > 0 && count === maxQ1);
-    document.getElementById('wcount-' + safeId).textContent = count;
-    document.getElementById('wbar-'  + safeId).style.width = ((count / maxQ1) * 100) + '%';
-    document.getElementById('wpct-'  + safeId).textContent = total > 0 ? pct + '%' : '—';
-  });
-
-  renderLeaderboard(q2Counts, otherResponses, total);
-}
-
-// ── LEADERBOARD ───────────────────────────
-const BASE_Q2 = ['Rest','Fun','Nature','Food'];
-const Q2_META = {
-  'Rest':   { emoji: '🧘', color: '#43e97b' },
-  'Fun':    { emoji: '🎉', color: '#ff6584' },
-  'Nature': { emoji: '🌿', color: '#56ab2f' },
-  'Food':   { emoji: '🍕', color: '#f7971e' },
-};
-
-function renderLeaderboard(q2Counts, otherResponses, total) {
-  const lb = document.getElementById('leaderboard');
-
-  const entries = [];
-  BASE_Q2.forEach(k => entries.push({ label: k, emoji: Q2_META[k].emoji, color: Q2_META[k].color, count: q2Counts[k] || 0 }));
-
-  const othersMap = {};
-  otherResponses.forEach(r => { const k = r.trim(); othersMap[k] = (othersMap[k]||0)+1; });
-  Object.entries(othersMap).forEach(([k,c]) => entries.push({ label: k, emoji: '✏️', color: '#6c63ff', count: c }));
-
-  entries.sort((a,b) => b.count - a.count);
-  const maxCount = Math.max(1, entries[0]?.count || 1);
-
-  const existing = {};
-  lb.querySelectorAll('.lb-item').forEach(el => { existing[el.dataset.key] = el; });
-  const seen = new Set();
-
-  entries.forEach((entry, idx) => {
-    const key = entry.label;
-    seen.add(key);
-    let el = existing[key];
-    if (!el) {
-      el = document.createElement('div');
-      el.className = 'lb-item';
-      el.dataset.key = key;
-      el.innerHTML = `
-        <div class="lb-rank">#${idx+1}</div>
-        <div class="lb-emoji">${entry.emoji}</div>
-        <div class="lb-label">${entry.label.charAt(0).toUpperCase()+entry.label.slice(1)}</div>
-        <div class="lb-count">${entry.count}</div>
-        <div class="lb-bar-bg"></div>
-        <div class="lb-bar" style="background:${entry.color};width:0%"></div>
-      `;
+  // ── Q2 ─────────────────────────────────────────
+  function selectQ2(btn) {
+    document.querySelectorAll('#screen-q2 .option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    q2Answer = btn.dataset.val;
+    const wrap = document.getElementById('other-input-wrap');
+    if (btn.dataset.val === '__other__') {
+      wrap.style.display = 'block';
+      setTimeout(() => document.getElementById('other-input').focus(), 50);
     } else {
-      el.querySelector('.lb-rank').textContent = '#' + (idx+1);
-      el.querySelector('.lb-count').textContent = entry.count;
-    }
-    el.classList.remove('rank-1','rank-2','rank-3');
-    if (entry.count > 0) el.classList.add('rank-' + Math.min(idx+1,3));
-    el.querySelector('.lb-bar').style.width = ((entry.count/maxCount)*100) + '%';
-    el.querySelector('.lb-bar').style.background = entry.color;
-    lb.appendChild(el);
-  });
-
-  Object.entries(existing).forEach(([k,el]) => { if (!seen.has(k)) el.remove(); });
-
-  const otherList = document.getElementById('other-list');
-  const otherItems = document.getElementById('other-items');
-  if (otherResponses.length > 0) {
-    otherList.style.display = 'block';
-    otherItems.innerHTML = otherResponses.map(r =>
-      `<div class="other-item"><div class="other-dot"></div><span>${r}</span></div>`
-    ).join('');
-  } else {
-    otherList.style.display = 'none';
-  }
-}
-
-// ── ADMIN ─────────────────────────────────
-async function adminReset() {
-  if (document.getElementById('admin-pass').value !== 'reset') {
-    document.getElementById('admin-msg').style.color = '#f5576c';
-    document.getElementById('admin-msg').textContent = '❌ Incorrect password.';
-    return;
-  }
-  document.getElementById('admin-msg').style.color = '#43e97b';
-  document.getElementById('admin-msg').textContent = 'Clearing responses…';
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'reset', password: 'reset' })
-    });
-    document.getElementById('admin-msg').textContent = '✅ All cleared! Ready to restart.';
-    document.getElementById('admin-pass').value = '';
-    setTimeout(() => {
-      document.getElementById('admin-overlay').classList.remove('show');
-      document.getElementById('admin-msg').textContent = '';
-      userName = ''; q1Answer = ''; q2Answer = '';
-      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-      document.getElementById('other-input-wrap').style.display = 'none';
+      wrap.style.display = 'none';
       document.getElementById('other-input').value = '';
-      document.getElementById('input-name').value = '';
-      const btn = document.getElementById('submit-btn');
-      btn.textContent = 'Submit My Answers 🎯'; btn.disabled = false;
-      showScreen('screen-welcome');
-      fetchAndRender();
-    }, 1400);
-  } catch(e) {
-    document.getElementById('admin-msg').textContent = '⚠️ Error — check your Apps Script URL.';
+    }
+    document.getElementById('q2-error').textContent = '';
   }
-}
 
-// ── CONFETTI ──────────────────────────────
-function launchConfetti() {
-  const canvas = document.getElementById('confetti-canvas');
-  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-  const ctx = canvas.getContext('2d');
-  const colors = ['#667eea','#f093fb','#f5576c','#ffd200','#43e97b','#ff6584','#90caf9','#fff'];
-  const pieces = Array.from({length:150}, () => ({
-    x: Math.random()*canvas.width, y: -10-Math.random()*200,
-    r: 4+Math.random()*7, d: Math.random()*120+60,
-    color: colors[Math.floor(Math.random()*colors.length)],
-    tilt: Math.random()*10-10, tiltAngle: 0,
-    tiltInc: Math.random()*0.07+0.05
-  }));
-  let angle=0, elapsed=0;
-  (function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    angle+=0.01; elapsed++;
-    pieces.forEach(p => {
-      p.tiltAngle+=p.tiltInc;
-      p.y+=(Math.cos(angle+p.d)+2+p.r/3)*1.8;
-      p.x+=Math.sin(angle)*1.2;
-      p.tilt=Math.sin(p.tiltAngle)*12;
-      ctx.beginPath(); ctx.lineWidth=p.r; ctx.strokeStyle=p.color;
-      ctx.moveTo(p.x+p.tilt+p.r/3, p.y);
-      ctx.lineTo(p.x+p.tilt, p.y+p.tilt+p.r/3);
-      ctx.stroke();
+  // ── SUBMIT ─────────────────────────────────────
+  async function submitAnswers() {
+    if (!q1Answer) { document.getElementById('q2-error').textContent = '← Go back and pick a weather!'; return; }
+    if (!q2Answer) { document.getElementById('q2-error').textContent = 'Please pick a recharge option!'; return; }
+
+    let finalQ2 = q2Answer;
+    if (q2Answer === '__other__') {
+      const v = document.getElementById('other-input').value.trim();
+      if (!v) { document.getElementById('q2-error').textContent = 'Please type your idea!'; return; }
+      finalQ2 = v;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Submitting… ⏳';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/responses', {
+        method: 'POST',
+        headers: { ...HEADERS, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ name: userName, q1: q1Answer, q2: finalQ2 })
+      });
+      if (!res.ok) throw new Error('Submit failed: ' + res.status);
+    } catch(e) {
+      console.error('Submit error:', e);
+      document.getElementById('q2-error').textContent = '⚠️ Could not save. Check your connection.';
+      btn.textContent = 'Submit My Answers 🎯';
+      btn.disabled = false;
+      return;
+    }
+
+    document.getElementById('thanks-msg').textContent =
+      `Thanks ${userName}! Your answers are in. See how everyone voted!`;
+    showScreen('screen-thanks');
+    launchConfetti();
+  }
+
+  // ── RESULTS ────────────────────────────────────
+  function goToResults() {
+    showScreen('screen-results');
+    fetchAndRender();
+    if (pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(fetchAndRender, 5000);
+  }
+
+  async function fetchAndRender() {
+    const statusEl = document.getElementById('fetch-status');
+    try {
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/responses?select=q1,q2',
+        { headers: HEADERS }
+      );
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json();
+      const processed = processRows(rows);
+      renderResults(processed);
+      statusEl.className = '';
+      statusEl.textContent = 'Last updated: ' + new Date().toLocaleTimeString();
+    } catch(e) {
+      console.error('Fetch error:', e);
+      statusEl.className = 'error';
+      statusEl.textContent = '⚠️ Could not load results — ' + e.message;
+    }
+  }
+
+  function processRows(rows) {
+    const BASE = ['Rest','Fun','Nature','Food'];
+    const q1Counts = {}, q2Counts = {}, otherResponses = [];
+    rows.forEach(row => {
+      if (row.q1) q1Counts[row.q1] = (q1Counts[row.q1] || 0) + 1;
+      if (row.q2) {
+        q2Counts[row.q2] = (q2Counts[row.q2] || 0) + 1;
+        if (!BASE.includes(row.q2)) otherResponses.push(row.q2);
+      }
     });
-    if (elapsed < 240) requestAnimationFrame(draw);
-    else ctx.clearRect(0,0,canvas.width,canvas.height);
-  })();
-}
+    return { q1Counts, q2Counts, total: rows.length, otherResponses };
+  }
 
-// Initial fetch on load
-fetchAndRender();
+  // ── WEATHER CARDS ──────────────────────────────
+  const WEATHER = [
+    { val: 'Sunny',         emoji: '☀️',  color: '#ffd200' },
+    { val: 'Partly Cloudy', emoji: '⛅',  color: '#90caf9' },
+    { val: 'Stormy',        emoji: '⛈️', color: '#b39ddb' },
+    { val: 'Snowy',         emoji: '❄️',  color: '#81d4fa' },
+  ];
+
+  function renderResults(data) {
+    const { q1Counts = {}, q2Counts = {}, total = 0, otherResponses = [] } = data;
+    document.getElementById('total-count').textContent = total;
+    document.getElementById('results-subtitle').textContent =
+      total === 0 ? 'Waiting for responses…'
+      : total === 1 ? '1 response so far'
+      : total + ' responses so far';
+
+    const container = document.getElementById('weather-cards');
+    const maxQ1 = Math.max(1, ...WEATHER.map(w => q1Counts[w.val] || 0));
+
+    WEATHER.forEach(w => {
+      const count = q1Counts[w.val] || 0;
+      const pct = Math.round((count / Math.max(1, total)) * 100);
+      const safeId = w.val.replace(/\s/g, '_');
+      let card = document.getElementById('wcard-' + safeId);
+      if (!card) {
+        card = document.createElement('div');
+        card.id = 'wcard-' + safeId;
+        card.className = 'weather-card';
+        card.style.setProperty('--wcolor', w.color);
+        card.innerHTML =
+          '<span class="wc-emoji">' + w.emoji + '</span>' +
+          '<div class="wc-label">' + w.val + '</div>' +
+          '<div class="wc-count" id="wcount-' + safeId + '">0</div>' +
+          '<div class="wc-bar-wrap"><div class="wc-bar" id="wbar-' + safeId + '" style="background:' + w.color + ';width:0%"></div></div>' +
+          '<div class="wc-pct" id="wpct-' + safeId + '">—</div>';
+        container.appendChild(card);
+      }
+      card.classList.toggle('has-votes', count > 0);
+      card.classList.toggle('leading', count > 0 && count === maxQ1);
+      document.getElementById('wcount-' + safeId).textContent = count;
+      document.getElementById('wbar-'   + safeId).style.width = ((count / maxQ1) * 100) + '%';
+      document.getElementById('wpct-'   + safeId).textContent = total > 0 ? pct + '%' : '—';
+    });
+
+    renderLeaderboard(q2Counts, otherResponses, total);
+  }
+
+  // ── LEADERBOARD ────────────────────────────────
+  const BASE_Q2 = ['Rest','Fun','Nature','Food'];
+  const Q2_META = {
+    'Rest':   { emoji: '🧘', color: '#43e97b' },
+    'Fun':    { emoji: '🎉', color: '#ff6584' },
+    'Nature': { emoji: '🌿', color: '#56ab2f' },
+    'Food':   { emoji: '🍕', color: '#f7971e' },
+  };
+
+  function renderLeaderboard(q2Counts, otherResponses, total) {
+    const lb = document.getElementById('leaderboard');
+    const entries = [];
+    BASE_Q2.forEach(k => entries.push({ label: k, emoji: Q2_META[k].emoji, color: Q2_META[k].color, count: q2Counts[k] || 0 }));
+
+    const othersMap = {};
+    otherResponses.forEach(r => { const k = r.trim(); othersMap[k] = (othersMap[k] || 0) + 1; });
+    Object.entries(othersMap).forEach(([k,c]) => entries.push({ label: k, emoji: '✏️', color: '#6c63ff', count: c }));
+
+    entries.sort((a,b) => b.count - a.count);
+    const maxCount = Math.max(1, entries[0] ? entries[0].count : 1);
+
+    const existing = {};
+    lb.querySelectorAll('.lb-item').forEach(el => { existing[el.dataset.key] = el; });
+    const seen = new Set();
+
+    entries.forEach((entry, idx) => {
+      const key = entry.label;
+      seen.add(key);
+      let el = existing[key];
+      if (!el) {
+        el = document.createElement('div');
+        el.className = 'lb-item';
+        el.dataset.key = key;
+        el.innerHTML =
+          '<div class="lb-rank">#' + (idx+1) + '</div>' +
+          '<div class="lb-emoji">' + entry.emoji + '</div>' +
+          '<div class="lb-label">' + entry.label.charAt(0).toUpperCase() + entry.label.slice(1) + '</div>' +
+          '<div class="lb-count">' + entry.count + '</div>' +
+          '<div class="lb-bar-bg"></div>' +
+          '<div class="lb-bar" style="background:' + entry.color + ';width:0%"></div>';
+      } else {
+        el.querySelector('.lb-rank').textContent = '#' + (idx+1);
+        el.querySelector('.lb-count').textContent = entry.count;
+      }
+      el.classList.remove('rank-1','rank-2','rank-3');
+      if (entry.count > 0) el.classList.add('rank-' + Math.min(idx+1, 3));
+      el.querySelector('.lb-bar').style.width = ((entry.count / maxCount) * 100) + '%';
+      el.querySelector('.lb-bar').style.background = entry.color;
+      lb.appendChild(el);
+    });
+
+    Object.entries(existing).forEach(([k,el]) => { if (!seen.has(k)) el.remove(); });
+
+    const otherList  = document.getElementById('other-list');
+    const otherItems = document.getElementById('other-items');
+    if (otherResponses.length > 0) {
+      otherList.style.display = 'block';
+      otherItems.innerHTML = otherResponses.map(r =>
+        '<div class="other-item"><div class="other-dot"></div><span>' + r + '</span></div>'
+      ).join('');
+    } else {
+      otherList.style.display = 'none';
+    }
+  }
+
+  // ── ADMIN ──────────────────────────────────────
+  async function adminReset() {
+    if (document.getElementById('admin-pass').value !== 'reset') {
+      document.getElementById('admin-msg').style.color = '#f5576c';
+      document.getElementById('admin-msg').textContent = '❌ Incorrect password.';
+      return;
+    }
+    document.getElementById('admin-msg').style.color = '#43e97b';
+    document.getElementById('admin-msg').textContent = 'Clearing responses…';
+    try {
+      // Delete all rows from the responses table
+      const res = await fetch(
+        SUPABASE_URL + '/rest/v1/responses?id=gte.0',
+        { method: 'DELETE', headers: { ...HEADERS, 'Prefer': 'return=minimal' } }
+      );
+      if (!res.ok) throw new Error('Delete failed: ' + res.status);
+      document.getElementById('admin-msg').textContent = '✅ All cleared! Ready to restart.';
+      document.getElementById('admin-pass').value = '';
+      setTimeout(() => {
+        document.getElementById('admin-overlay').classList.remove('show');
+        document.getElementById('admin-msg').textContent = '';
+        userName = ''; q1Answer = ''; q2Answer = '';
+        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('other-input-wrap').style.display = 'none';
+        document.getElementById('other-input').value = '';
+        document.getElementById('input-name').value = '';
+        const btn = document.getElementById('submit-btn');
+        btn.textContent = 'Submit My Answers 🎯'; btn.disabled = false;
+        showScreen('screen-welcome');
+        fetchAndRender();
+      }, 1400);
+    } catch(e) {
+      document.getElementById('admin-msg').style.color = '#f5576c';
+      document.getElementById('admin-msg').textContent = '⚠️ Error clearing: ' + e.message;
+    }
+  }
+
+  // ── CONFETTI ───────────────────────────────────
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+    const colors = ['#667eea','#f093fb','#f5576c','#ffd200','#43e97b','#ff6584','#90caf9','#fff'];
+    const pieces = Array.from({length:150}, () => ({
+      x: Math.random()*canvas.width, y: -10-Math.random()*200,
+      r: 4+Math.random()*7, d: Math.random()*120+60,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      tilt: Math.random()*10-10, tiltAngle: 0,
+      tiltInc: Math.random()*0.07+0.05
+    }));
+    let angle=0, elapsed=0;
+    (function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      angle+=0.01; elapsed++;
+      pieces.forEach(p => {
+        p.tiltAngle+=p.tiltInc;
+        p.y+=(Math.cos(angle+p.d)+2+p.r/3)*1.8;
+        p.x+=Math.sin(angle)*1.2;
+        p.tilt=Math.sin(p.tiltAngle)*12;
+        ctx.beginPath(); ctx.lineWidth=p.r; ctx.strokeStyle=p.color;
+        ctx.moveTo(p.x+p.tilt+p.r/3, p.y);
+        ctx.lineTo(p.x+p.tilt, p.y+p.tilt+p.r/3);
+        ctx.stroke();
+      });
+      if (elapsed < 240) requestAnimationFrame(draw);
+      else ctx.clearRect(0,0,canvas.width,canvas.height);
+    })();
+  }
+
+  // Kick off first fetch
+  fetchAndRender();
 </script>
-
-<!--
-════════════════════════════════════════════════════════
-  WHY THE LIVE RESULTS PAGE WASN'T WORKING — FIX NOTES
-════════════════════════════════════════════════════════
-
-  BUG 1 — CORS failure silently swallowed
-  ─────────────────────────────────────────
-  The original fetch() for GET used default mode ('cors'), but Google Apps
-  Script doesn't send permissive CORS headers when the deployment is scoped
-  to a Google Workspace domain (onepeloton.com). The browser blocked the
-  response and the catch() block only logged a console warning — the results
-  page stayed blank with zero user feedback.
-
-  FIX: Added an AbortController with an 8-second timeout, a proper error
-  message displayed in #fetch-status, and a demo-mode fallback that renders
-  sample data so the page is never blank.
-
-  BUG 2 — No fallback when backend is unreachable
-  ─────────────────────────────────────────────────
-  If the Apps Script URL is wrong, expired, or the user isn't authenticated,
-  the results page would render nothing. Users had no idea if it was working.
-
-  FIX: Added DEMO_DATA + showDemoBanner(). If any fetch fails (network error,
-  CORS block, timeout, non-2xx status), the page falls back to demo data and
-  shows a yellow banner explaining what's happening.
-
-  BUG 3 — Polling interval never cleared on re-entry
-  ────────────────────────────────────────────────────
-  Calling goToResults() multiple times stacked multiple setInterval() calls,
-  causing redundant (and increasingly rapid) fetches.
-
-  FIX: clearInterval(pollInterval) before setting a new one (already present
-  in original, confirmed preserved here). Interval extended to 5 s to reduce
-  unnecessary network traffic.
-
-  BUG 4 — Bar widths missing initial width:0%
-  ────────────────────────────────────────────
-  Weather bars and leaderboard bars were created without an explicit
-  width: 0% — some browsers skipped the CSS transition on first render.
-
-  FIX: Added width:0% inline style on initial element creation so the
-  animated grow-in transition always fires correctly.
-
-  ────────────────────────────────────────────
-  APPS SCRIPT CORS NOTE (important!)
-  ────────────────────────────────────────────
-  For the live results to work outside the onepeloton.com domain (e.g. on
-  GitHub Pages), your Apps Script deployment must be set to:
-    • Execute as: Me
-    • Who has access: Anyone (not "Anyone within onepeloton.com")
-
-  If it must stay domain-restricted, add this to your doGet():
-    return ContentService
-      .createTextOutput(JSON.stringify(getResults()))
-      .setMimeType(ContentService.MimeType.JSON);
-  …and ensure you're calling it from within the same Google auth session,
-  OR switch to a JSONP callback pattern to sidestep CORS entirely.
-
-════════════════════════════════════════════════════════
--->
 </body>
 </html>
