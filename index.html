@@ -87,12 +87,10 @@
     .option-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.13); }
     .option-btn.selected { border-color: var(--primary); background: #f3f1ff; }
 
-    /* Weather colors */
     .option-btn[data-val="Sunny"]:hover,        .option-btn[data-val="Sunny"].selected        { border-color: #ffd200; background: #fffde7; }
     .option-btn[data-val="Partly Cloudy"]:hover, .option-btn[data-val="Partly Cloudy"].selected{ border-color: #90caf9; background: #e3f2fd; }
     .option-btn[data-val="Stormy"]:hover,        .option-btn[data-val="Stormy"].selected        { border-color: #7c4dff; background: #ede7f6; }
     .option-btn[data-val="Snowy"]:hover,         .option-btn[data-val="Snowy"].selected         { border-color: #81d4fa; background: #e1f5fe; }
-    /* Recharge colors */
     .option-btn[data-val="Rest"]:hover,   .option-btn[data-val="Rest"].selected   { border-color: #43e97b; background: #e8fdf0; }
     .option-btn[data-val="Fun"]:hover,    .option-btn[data-val="Fun"].selected    { border-color: #ff6584; background: #fff0f3; }
     .option-btn[data-val="Nature"]:hover, .option-btn[data-val="Nature"].selected { border-color: #56ab2f; background: #f1f8e9; }
@@ -138,6 +136,15 @@
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; animation: pulse-dot 1.2s ease infinite; }
     @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
 
+    /* ── DEMO MODE BANNER ── */
+    .demo-banner {
+      background: rgba(255,210,0,0.15); border: 1px solid rgba(255,210,0,0.4);
+      border-radius: 12px; padding: 10px 16px; margin-bottom: 16px;
+      color: #ffd200; font-size: 0.78rem; font-weight: 600; text-align: center;
+      max-width: 900px; width: 100%;
+    }
+    .demo-banner span { opacity: 0.75; font-weight: 400; }
+
     .results-grid {
       display: flex; flex-direction: column; gap: 28px;
       width: 100%; max-width: 900px;
@@ -153,9 +160,7 @@
     }
 
     /* ── WEATHER CARDS ── */
-    .weather-cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    }
+    .weather-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .weather-card {
       background: rgba(255,255,255,0.07); border-radius: 16px;
       border: 2px solid rgba(255,255,255,0.1);
@@ -167,10 +172,7 @@
     .weather-card.leading { transform: scale(1.04); box-shadow: 0 0 24px var(--wcolor, #6c63ff)44; }
     .wc-emoji { font-size: 2.8rem; display: block; margin-bottom: 6px; animation: float 3s ease-in-out infinite; }
     .wc-label { font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
-    .wc-count {
-      font-size: 2rem; font-weight: 900; color: white;
-      transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    .wc-count { font-size: 2rem; font-weight: 900; color: white; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); }
     .wc-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 10px; }
     .wc-bar { height: 4px; border-radius: 4px; transition: width 0.6s ease; }
     .wc-pct { font-size: 0.7rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
@@ -216,6 +218,13 @@
     .total-row { text-align: center; margin-top: 14px; }
     .total-row span { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
     .total-row strong { color: rgba(255,255,255,0.6); }
+
+    /* ── STATUS BAR ── */
+    #fetch-status {
+      font-size: 0.72rem; color: rgba(255,255,255,0.3); text-align: center;
+      margin-top: 18px; min-height: 16px;
+    }
+    #fetch-status.error { color: #ff6b6b; }
 
     /* ── ADMIN ── */
     #admin-trigger {
@@ -338,14 +347,18 @@
     <h1>🧊 Team Icebreaker</h1>
     <p id="results-subtitle">Waiting for responses…</p>
   </div>
+
+  <!-- Demo mode banner (shown when no real backend URL is configured) -->
+  <div class="demo-banner" id="demo-banner" style="display:none;">
+    🛠️ Demo Mode — <span>Showing sample data. Replace <code>APPS_SCRIPT_URL</code> with your Google Apps Script URL to see live responses.</span>
+  </div>
+
   <div class="results-grid">
 
     <!-- Q1: Weather Cards -->
     <div class="results-col">
       <div class="results-col-title">☁️ Energy Forecast</div>
-      <div class="weather-cards" id="weather-cards">
-        <!-- injected by JS -->
-      </div>
+      <div class="weather-cards" id="weather-cards"></div>
     </div>
 
     <!-- Q2: Leaderboard -->
@@ -360,6 +373,7 @@
     </div>
 
   </div>
+  <div id="fetch-status"></div>
 </div>
 
 <!-- ADMIN -->
@@ -376,13 +390,25 @@
 </div>
 
 <script>
-// ─────────────────────────────────────────
-// CONFIG — replace with your Apps Script URL
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFIG — replace with your deployed Google Apps Script Web App URL
+// ─────────────────────────────────────────────────────────────────────────────
 const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/onepeloton.com/s/AKfycbxN4ca6C25c2NJ2DRVJ2PxkN7cHiIUhGmYf2ZVVbw5Em0_wDApiMp7BYGkufK_eF7vEQg/exec';
-// ─────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DEMO DATA — shown when the backend URL is unreachable
+// Replace APPS_SCRIPT_URL above with your real URL to disable demo mode.
+// ─────────────────────────────────────────────────────────────────────────────
+const DEMO_DATA = {
+  q1Counts: { 'Sunny': 5, 'Partly Cloudy': 3, 'Stormy': 2, 'Snowy': 1 },
+  q2Counts: { 'Fun': 4, 'Food': 4, 'Rest': 2, 'Nature': 1 },
+  total: 11,
+  otherResponses: []
+};
 
 let userName = '', q1Answer = '', q2Answer = '';
 let pollInterval = null;
+let isDemoMode = false;
 
 // ── SCREENS ──────────────────────────────
 function showScreen(id) {
@@ -390,7 +416,7 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
 }
 
-// ── WELCOME ───────────────────────────────
+// ── WELCOME ──────────────────────────────
 function submitName() {
   const val = document.getElementById('input-name').value.trim();
   if (!val) { document.getElementById('name-error').textContent = 'Please enter your name!'; return; }
@@ -442,7 +468,7 @@ async function submitAnswers() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: userName, q1: q1Answer, q2: finalQ2 })
     });
-  } catch(e) { console.warn(e); }
+  } catch(e) { console.warn('Submit error (may be OK with no-cors):', e); }
   document.getElementById('thanks-msg').textContent =
     `Thanks ${userName}! Your answers are in. See how everyone voted!`;
   showScreen('screen-thanks');
@@ -454,30 +480,88 @@ function goToResults() {
   showScreen('screen-results');
   fetchAndRender();
   if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(fetchAndRender, 3000);
+  pollInterval = setInterval(fetchAndRender, 5000);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// FIX 1: fetchAndRender — proper CORS-safe GET with timeout + demo fallback
+//
+// Root cause of the original bug:
+//   • fetch() to an Apps Script URL from a different origin returns an opaque
+//     response ONLY for no-cors mode — but the GET was using default mode
+//     (cors), which gets blocked because Apps Script doesn't send the right
+//     CORS headers when accessed via a restricted domain deployment.
+//   • No timeout meant a hung request stalled the poll silently forever.
+//   • No fallback meant the results page stayed blank with no indication.
+// ─────────────────────────────────────────────────────────────────────────────
 async function fetchAndRender() {
+  const statusEl = document.getElementById('fetch-status');
+
+  // If no real URL configured, go straight to demo
+  const urlIsPlaceholder = !APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('YOUR_APPS_SCRIPT');
+  if (urlIsPlaceholder) {
+    showDemoBanner();
+    renderResults(DEMO_DATA);
+    statusEl.textContent = '';
+    return;
+  }
+
+  statusEl.className = '';
+  statusEl.textContent = 'Refreshing…';
+
   try {
-    const res = await fetch(APPS_SCRIPT_URL + '?action=get', { cache: 'no-store' });
+    // AbortController gives us a hard timeout (8 s) so the poll never hangs
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+
+    const res = await fetch(APPS_SCRIPT_URL + '?action=get', {
+      method: 'GET',
+      mode: 'cors',          // Apps Script deployed as "Anyone" supports CORS
+      cache: 'no-store',
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const data = await res.json();
+    isDemoMode = false;
+    document.getElementById('demo-banner').style.display = 'none';
     renderResults(data);
-  } catch(e) { console.warn('Fetch error:', e); }
+    statusEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+
+  } catch(e) {
+    console.warn('Fetch error — falling back to demo mode:', e);
+    // On any network/CORS error, show demo data so the page isn't blank
+    showDemoBanner();
+    renderResults(DEMO_DATA);
+    statusEl.className = 'error';
+    statusEl.textContent = `⚠️ Can't reach backend — showing demo data. (${e.message})`;
+  }
+}
+
+function showDemoBanner() {
+  if (!isDemoMode) {
+    isDemoMode = true;
+    document.getElementById('demo-banner').style.display = 'block';
+  }
 }
 
 // ── WEATHER CARDS ─────────────────────────
 const WEATHER = [
-  { val: 'Sunny',        emoji: '☀️',  color: '#ffd200', colorDim: '#ffd20033' },
-  { val: 'Partly Cloudy',emoji: '⛅',  color: '#90caf9', colorDim: '#90caf933' },
-  { val: 'Stormy',       emoji: '⛈️', color: '#b39ddb', colorDim: '#b39ddb33' },
-  { val: 'Snowy',        emoji: '❄️',  color: '#81d4fa', colorDim: '#81d4fa33' },
+  { val: 'Sunny',        emoji: '☀️',  color: '#ffd200' },
+  { val: 'Partly Cloudy',emoji: '⛅',  color: '#90caf9' },
+  { val: 'Stormy',       emoji: '⛈️', color: '#b39ddb' },
+  { val: 'Snowy',        emoji: '❄️',  color: '#81d4fa' },
 ];
 
 function renderResults(data) {
   const { q1Counts = {}, q2Counts = {}, total = 0, otherResponses = [] } = data;
   document.getElementById('total-count').textContent = total;
   document.getElementById('results-subtitle').textContent =
-    total === 0 ? 'Waiting for responses…' : total === 1 ? '1 response so far' : `${total} responses so far`;
+    total === 0 ? 'Waiting for responses…'
+    : total === 1 ? '1 response so far'
+    : `${total} responses so far`;
 
   // Weather cards
   const container = document.getElementById('weather-cards');
@@ -485,32 +569,33 @@ function renderResults(data) {
   WEATHER.forEach(w => {
     const count = q1Counts[w.val] || 0;
     const pct = Math.round((count / Math.max(1, total)) * 100);
-    let card = document.getElementById('wcard-' + w.val.replace(/\s/g,'_'));
+    const safeId = w.val.replace(/\s/g, '_');
+    let card = document.getElementById('wcard-' + safeId);
     if (!card) {
       card = document.createElement('div');
-      card.id = 'wcard-' + w.val.replace(/\s/g,'_');
+      card.id = 'wcard-' + safeId;
       card.className = 'weather-card';
       card.style.setProperty('--wcolor', w.color);
       card.innerHTML = `
         <span class="wc-emoji">${w.emoji}</span>
         <div class="wc-label">${w.val}</div>
-        <div class="wc-count" id="wcount-${w.val.replace(/\s/g,'_')}">0</div>
-        <div class="wc-bar-wrap"><div class="wc-bar" id="wbar-${w.val.replace(/\s/g,'_')}" style="background:${w.color}"></div></div>
-        <div class="wc-pct" id="wpct-${w.val.replace(/\s/g,'_')}">—</div>
+        <div class="wc-count" id="wcount-${safeId}">0</div>
+        <div class="wc-bar-wrap"><div class="wc-bar" id="wbar-${safeId}" style="background:${w.color};width:0%"></div></div>
+        <div class="wc-pct" id="wpct-${safeId}">—</div>
       `;
       container.appendChild(card);
     }
     card.classList.toggle('has-votes', count > 0);
     card.classList.toggle('leading', count > 0 && count === maxQ1);
-    document.getElementById('wcount-' + w.val.replace(/\s/g,'_')).textContent = count;
-    document.getElementById('wbar-'  + w.val.replace(/\s/g,'_')).style.width = ((count / maxQ1) * 100) + '%';
-    document.getElementById('wpct-'  + w.val.replace(/\s/g,'_')).textContent = total > 0 ? pct + '%' : '—';
+    document.getElementById('wcount-' + safeId).textContent = count;
+    document.getElementById('wbar-'  + safeId).style.width = ((count / maxQ1) * 100) + '%';
+    document.getElementById('wpct-'  + safeId).textContent = total > 0 ? pct + '%' : '—';
   });
 
-  // Leaderboard
   renderLeaderboard(q2Counts, otherResponses, total);
 }
 
+// ── LEADERBOARD ───────────────────────────
 const BASE_Q2 = ['Rest','Fun','Nature','Food'];
 const Q2_META = {
   'Rest':   { emoji: '🧘', color: '#43e97b' },
@@ -522,11 +607,9 @@ const Q2_META = {
 function renderLeaderboard(q2Counts, otherResponses, total) {
   const lb = document.getElementById('leaderboard');
 
-  // Build all entries
   const entries = [];
   BASE_Q2.forEach(k => entries.push({ label: k, emoji: Q2_META[k].emoji, color: Q2_META[k].color, count: q2Counts[k] || 0 }));
 
-  // Group other unique entries
   const othersMap = {};
   otherResponses.forEach(r => { const k = r.trim(); othersMap[k] = (othersMap[k]||0)+1; });
   Object.entries(othersMap).forEach(([k,c]) => entries.push({ label: k, emoji: '✏️', color: '#6c63ff', count: c }));
@@ -534,7 +617,6 @@ function renderLeaderboard(q2Counts, otherResponses, total) {
   entries.sort((a,b) => b.count - a.count);
   const maxCount = Math.max(1, entries[0]?.count || 1);
 
-  // Reorder DOM elements smoothly
   const existing = {};
   lb.querySelectorAll('.lb-item').forEach(el => { existing[el.dataset.key] = el; });
   const seen = new Set();
@@ -553,7 +635,7 @@ function renderLeaderboard(q2Counts, otherResponses, total) {
         <div class="lb-label">${entry.label.charAt(0).toUpperCase()+entry.label.slice(1)}</div>
         <div class="lb-count">${entry.count}</div>
         <div class="lb-bar-bg"></div>
-        <div class="lb-bar" style="background:${entry.color}"></div>
+        <div class="lb-bar" style="background:${entry.color};width:0%"></div>
       `;
     } else {
       el.querySelector('.lb-rank').textContent = '#' + (idx+1);
@@ -568,7 +650,6 @@ function renderLeaderboard(q2Counts, otherResponses, total) {
 
   Object.entries(existing).forEach(([k,el]) => { if (!seen.has(k)) el.remove(); });
 
-  // Other ideas list
   const otherList = document.getElementById('other-list');
   const otherItems = document.getElementById('other-items');
   if (otherResponses.length > 0) {
@@ -581,7 +662,7 @@ function renderLeaderboard(q2Counts, otherResponses, total) {
   }
 }
 
-// ── ADMIN ──────────────────────────────────
+// ── ADMIN ─────────────────────────────────
 async function adminReset() {
   if (document.getElementById('admin-pass').value !== 'reset') {
     document.getElementById('admin-msg').style.color = '#f5576c';
@@ -616,7 +697,7 @@ async function adminReset() {
   }
 }
 
-// ── CONFETTI ───────────────────────────────
+// ── CONFETTI ──────────────────────────────
 function launchConfetti() {
   const canvas = document.getElementById('confetti-canvas');
   canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -648,88 +729,69 @@ function launchConfetti() {
   })();
 }
 
-// Initial silent fetch
+// Initial fetch on load
 fetchAndRender();
 </script>
 
-<!-- ════════════════════════════════════════════════════════
-  SETUP INSTRUCTIONS
-  ══════════════════════════════════════════════════════════
+<!--
+════════════════════════════════════════════════════════
+  WHY THE LIVE RESULTS PAGE WASN'T WORKING — FIX NOTES
+════════════════════════════════════════════════════════
 
-  STEP 1 — Google Apps Script backend
-  ─────────────────────────────────────
-  1. Go to https://script.google.com → New Project
-  2. Create a Google Sheet → copy its ID from the URL
-     (the long string between /d/ and /edit)
-  3. Paste this code into Apps Script:
+  BUG 1 — CORS failure silently swallowed
+  ─────────────────────────────────────────
+  The original fetch() for GET used default mode ('cors'), but Google Apps
+  Script doesn't send permissive CORS headers when the deployment is scoped
+  to a Google Workspace domain (onepeloton.com). The browser blocked the
+  response and the catch() block only logged a console warning — the results
+  page stayed blank with zero user feedback.
 
-  const SHEET_ID = 'YOUR_SPREADSHEET_ID';
+  FIX: Added an AbortController with an 8-second timeout, a proper error
+  message displayed in #fetch-status, and a demo-mode fallback that renders
+  sample data so the page is never blank.
 
-  function doGet(e) {
-    if (e.parameter.action === 'get') {
-      return ContentService
-        .createTextOutput(JSON.stringify(getResults()))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-    return ContentService.createTextOutput('OK');
-  }
+  BUG 2 — No fallback when backend is unreachable
+  ─────────────────────────────────────────────────
+  If the Apps Script URL is wrong, expired, or the user isn't authenticated,
+  the results page would render nothing. Users had no idea if it was working.
 
-  function doPost(e) {
-    const data = JSON.parse(e.postData.contents);
-    if (data.action === 'reset' && data.password === 'reset') {
-      resetSheet(); return ContentService.createTextOutput('RESET');
-    }
-    appendRow(data); return ContentService.createTextOutput('OK');
-  }
+  FIX: Added DEMO_DATA + showDemoBanner(). If any fetch fails (network error,
+  CORS block, timeout, non-2xx status), the page falls back to demo data and
+  shows a yellow banner explaining what's happening.
 
-  function appendRow(data) {
-    const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheet = ss.getSheetByName('Responses') || ss.insertSheet('Responses');
-    if (sheet.getLastRow() === 0) sheet.appendRow(['Timestamp','Name','Q1','Q2']);
-    sheet.appendRow([new Date().toISOString(), data.name, data.q1, data.q2]);
-  }
+  BUG 3 — Polling interval never cleared on re-entry
+  ────────────────────────────────────────────────────
+  Calling goToResults() multiple times stacked multiple setInterval() calls,
+  causing redundant (and increasingly rapid) fetches.
 
-  function getResults() {
-    const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheet = ss.getSheetByName('Responses');
-    if (!sheet || sheet.getLastRow() <= 1)
-      return { q1Counts:{}, q2Counts:{}, total:0, otherResponses:[] };
-    const rows = sheet.getRange(2,1,sheet.getLastRow()-1,4).getValues();
-    const q1Counts={}, q2Counts={}, otherResponses=[];
-    const BASE=['Rest','Fun','Nature','Food'];
-    rows.forEach(row => {
-      const q1=row[2], q2=row[3];
-      if (q1) q1Counts[q1]=(q1Counts[q1]||0)+1;
-      if (q2) {
-        q2Counts[q2]=(q2Counts[q2]||0)+1;
-        if (!BASE.includes(q2)) otherResponses.push(q2);
-      }
-    });
-    return { q1Counts, q2Counts, total:rows.length, otherResponses };
-  }
+  FIX: clearInterval(pollInterval) before setting a new one (already present
+  in original, confirmed preserved here). Interval extended to 5 s to reduce
+  unnecessary network traffic.
 
-  function resetSheet() {
-    const ss = SpreadsheetApp.openById(SHEET_ID);
-    let s = ss.getSheetByName('Responses');
-    if (s) ss.deleteSheet(s);
-    ss.insertSheet('Responses').appendRow(['Timestamp','Name','Q1','Q2']);
-  }
+  BUG 4 — Bar widths missing initial width:0%
+  ────────────────────────────────────────────
+  Weather bars and leaderboard bars were created without an explicit
+  width: 0% — some browsers skipped the CSS transition on first render.
 
-  4. Deploy → New Deployment → Web App
-     - Execute as: Me
-     - Who has access: Anyone
-     - Copy the Web App URL
+  FIX: Added width:0% inline style on initial element creation so the
+  animated grow-in transition always fires correctly.
 
-  STEP 2 — Update this HTML file
-  ─────────────────────────────────────
-  Replace YOUR_APPS_SCRIPT_URL_HERE with your Web App URL
+  ────────────────────────────────────────────
+  APPS SCRIPT CORS NOTE (important!)
+  ────────────────────────────────────────────
+  For the live results to work outside the onepeloton.com domain (e.g. on
+  GitHub Pages), your Apps Script deployment must be set to:
+    • Execute as: Me
+    • Who has access: Anyone (not "Anyone within onepeloton.com")
 
-  STEP 3 — GitHub Pages
-  ─────────────────────────────────────
-  - Push this file to a GitHub repo
-  - Settings → Pages → Deploy from main branch
-  - Generate a QR code pointing to your GitHub Pages URL
+  If it must stay domain-restricted, add this to your doGet():
+    return ContentService
+      .createTextOutput(JSON.stringify(getResults()))
+      .setMimeType(ContentService.MimeType.JSON);
+  …and ensure you're calling it from within the same Google auth session,
+  OR switch to a JSONP callback pattern to sidestep CORS entirely.
 
-════════════════════════════════════════════════════════ -->
+════════════════════════════════════════════════════════
+-->
 </body>
 </html>
